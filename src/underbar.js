@@ -102,6 +102,9 @@
   // Produce a duplicate-free version of the array.
   _.uniq = function(array, isSorted, iterator) {
     let results = [];
+    let temp = [];
+    let find;
+    var iterated;
 
     if (iterator === undefined) {
       for (let i = 0; i < array.length; i++) {
@@ -110,14 +113,16 @@
         } 
       }
     } else {
-      let iterated = [];
-      for (let i = 0; i < array.length; i++) {
-        iterated.push(iterator(array[i]));
-        
-        if (_.indexOf(results, iterated[i]) === -1) {
-          results.push(array[i]);
+      _.each(array, (item) => {
+        iterated = iterator(item);
+        find = _.indexOf(temp, iterated);
+        if (find === -1) {
+          temp.push(iterated);
+          results.push(item);
         }
-      } 
+      });
+    
+      
     }
         
     return results;
